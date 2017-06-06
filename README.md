@@ -1,10 +1,10 @@
 # Adafruit_CircuitPython_AMG88xx
 
-#Dependencies
+# Dependencies
 
 This driver depends on the Register and Bus Device libraries. Please ensure they are also available on the CircuitPython filesystem. This is easily achieved by downloading a library and driver bundle.
 
-#Usage Notes
+# Usage Notes
 
 Basics
 
@@ -40,7 +40,7 @@ You can also optionally use the alternate i2c address (make sure to solder the j
 amg = Adafruit_AMG88xx.Adafruit_AMG88xx(myI2C, addr=0x68)
 ```
 
-#Reading Pixels
+# Reading Pixels
 
 Pixels can be then be read by doing: 
 
