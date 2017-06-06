@@ -39,7 +39,6 @@ Implementation Notes
 * Adafruit's Register library: https://github.com/adafruit/Adafruit_CircuitPython_Register
 * Adafruit's Bus Device library: https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
 **Notes:**
-#. Datasheet: 
 """
 
 from adafruit_bus_device.i2c_device import I2CDevice
@@ -100,10 +99,6 @@ AMG88xx_PIXEL_TEMP_CONVERSION = .25
 AMG88xx_THERMISTOR_CONVERSION = .0625
 
 class Adafruit_AMG88xx:
-	"""Interface to the PCF8523 RTC."""
-
-	#lost_power = i2c_bit.RWBit(0x03, 7)
-	"""True if the device has lost power since the time was set."""
 
 	#set up the registers
 	_pctl = i2c_bits.RWBits(8, 0x00, 0)
