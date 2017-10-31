@@ -42,10 +42,7 @@ Implementation Notes
 """
 
 from adafruit_bus_device.i2c_device import I2CDevice
-from adafruit_register import i2c_bit
-from adafruit_register import i2c_bits
-from adafruit_register import i2c_bcd_alarm
-from adafruit_register import i2c_bcd_datetime
+from adafruit_register import i2c_bit, i2c_bints
 
 """
 # AMG88xx default address.

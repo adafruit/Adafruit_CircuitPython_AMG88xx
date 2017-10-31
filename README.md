@@ -12,12 +12,12 @@ Of course, you must import the library to use it:
 
 ```
 import busio
-import Adafruit_AMG88xx
+import adafruit_amg88xx
 ```
 The way to create an I2C object depends on the board you are using. For boards with labeled SCL and SDA pins, you can:
 
 ```
-from board import *
+import board
 ```
 
 You can also use pins defined by the onboard microcontroller through the microcontroller.pin module.
@@ -25,19 +25,19 @@ You can also use pins defined by the onboard microcontroller through the microco
 Now, to initialize the I2C bus:
 
 ```
-myI2C = busio.I2C(SCL, SDA)
+myI2C = busio.I2C(board.SCL, board.SDA)
 ```
 
 Once you have created the I2C interface object, you can use it to instantiate the AMG88xx object
 
 ```
-amg = Adafruit_AMG88xx.Adafruit_AMG88xx(myI2C)
+amg = adafruit_amg88xx.Adafruit_AMG88xx(myI2C)
 ```
 
 You can also optionally use the alternate i2c address (make sure to solder the jumper on the back of the board if you want to do this)
 
 ```
-amg = Adafruit_AMG88xx.Adafruit_AMG88xx(myI2C, addr=0x68)
+amg = adafruit_amg88xx.Adafruit_AMG88xx(myI2C, addr=0x68)
 ```
 
 # Reading Pixels
@@ -45,6 +45,6 @@ amg = Adafruit_AMG88xx.Adafruit_AMG88xx(myI2C, addr=0x68)
 Pixels can be then be read by doing: 
 
 ```
-value = a.readPixels()
+value = amg.readPixels()
 print(value)
 ```
