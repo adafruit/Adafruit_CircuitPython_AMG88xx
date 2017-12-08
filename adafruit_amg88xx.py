@@ -21,157 +21,147 @@
 # THE SOFTWARE.
 
 """
-`Adafruit_AMG88xx` - AMG88xx GRID-Eye IR 8x8 IR sensor
+`adafruit_amg88xx` - AMG88xx GRID-Eye IR 8x8 IR sensor
 ====================================================
-This library supports the use of the AMG88xx in CircuitPython. This base
-class is inherited by the chip-specific subclasses.
-Functions are included for reading and writing registers and manipulating
-datetime objects.
-Author(s): Dean Miller for Adafruit Industries.
+This library supports the use of the AMG88xx in CircuitPython.
+
+Author(s): Dean Miller, Scott Shawcroft for Adafruit Industries.
 Date: June 2017
 Affiliation: Adafruit Industries
+
 Implementation Notes
 --------------------
 **Hardware:**
-*
+
 **Software and Dependencies:**
-* Adafruit CircuitPython firmware for the ESP8622 and M0-based boards: https://github.com/adafruit/micropython/releases
+* Adafruit CircuitPython: https://github.com/adafruit/circuitpython/releases
 * Adafruit's Register library: https://github.com/adafruit/Adafruit_CircuitPython_Register
 * Adafruit's Bus Device library: https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
+
 **Notes:**
 """
 
+__version__ = "0.0.0-auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_LIS3DH.git"
+
 from adafruit_bus_device.i2c_device import I2CDevice
 from adafruit_register import i2c_bit, i2c_bits
+from micropython import const
 
-"""
-# AMG88xx default address.
-AMG88xx_I2CADDR	= 0x69
 
-AMG88xx_PCTL 	= 0x00
-AMG88xx_RST 	= 0x01
-AMG88xx_FPSC 	= 0x02
-AMG88xx_INTC 	= 0x03
-AMG88xx_STAT 	= 0x04
-AMG88xx_SCLR 	= 0x05
-#0x06 reserved
-AMG88xx_AVE 	= 0x07
-AMG88xx_INTHL 	= 0x08
-AMG88xx_INTHH 	= 0x09
-AMG88xx_INTLL 	= 0x0A
-AMG88xx_INTLH 	= 0x0B
-AMG88xx_IHYSL 	= 0x0C
-AMG88xx_IHYSH 	= 0x0D
-AMG88xx_TTHL 	= 0x0E
-AMG88xx_TTHH 	= 0x0F
+# Registers are defined below in the class. These are possible register values.
 
 # Operating Modes
-AMG88xx_NORMAL_MODE = 0x00
-AMG88xx_SLEEP_MODE = 0x01
-AMG88xx_STAND_BY_60 = 0x20
-AMG88xx_STAND_BY_10 = 0x21
+# pylint: disable=bad-whitespace
+_NORMAL_MODE = const(0x00)
+_SLEEP_MODE  = const(0x01)
+_STAND_BY_60 = const(0x20)
+_STAND_BY_10 = const(0x21)
 
-#sw resets
-AMG88xx_FLAG_RESET = 0x30
-AMG88xx_INITIAL_RESET = 0x3F
-	
-#frame rates
-AMG88xx_FPS_10 = 0x00
-AMG88xx_FPS_1 = 0x01
-	
-#int enables
-AMG88xx_INT_DISABLED = 0x00
-AMG88xx_INT_ENABLED = 0x01
-	
-#int modes
-AMG88xx_DIFFERENCE = 0x00
-AMG88xx_ABSOLUTE_VALUE = 0x01
-"""
+# sw resets
+_FLAG_RESET    = const(0x30)
+_INITIAL_RESET = const(0x3F)
 
-AMG88xx_INT_OFFSET = 0x010
-AMG88xx_PIXEL_OFFSET = 0x80
+# frame rates
+_FPS_10 = const(0x00)
+_FPS_1  = const(0x01)
 
-AMG88xx_PIXEL_ARRAY_SIZE = 64
-AMG88xx_PIXEL_TEMP_CONVERSION = .25
-AMG88xx_THERMISTOR_CONVERSION = .0625
+# int enables
+_INT_DISABLED = const(0x00)
+_INT_ENABLED  = const(0x01)
 
-class Adafruit_AMG88xx:
+# int modes
+_DIFFERENCE     = const(0x00)
+_ABSOLUTE_VALUE = const(0x01)
 
-	#set up the registers
-	_pctl = i2c_bits.RWBits(8, 0x00, 0)
-	_rst = i2c_bits.RWBits(8, 0x01, 0)
-	_fps = i2c_bit.RWBit(0x02, 0)
-	_inten = i2c_bit.RWBit(0x03, 0)
-	_intmod = i2c_bit.RWBit(0x03, 1)
+_INT_OFFSET   = const(0x010)
+_PIXEL_OFFSET = const(0x80)
 
-	_intf = i2c_bit.RWBit(0x04, 1)
-	_ovf_irs = i2c_bit.RWBit(0x04, 2)
-	_ovf_ths = i2c_bit.RWBit(0x04, 3)
+_PIXEL_ARRAY_WIDTH = const(8)
+_PIXEL_ARRAY_HEIGHT = const(8)
+_PIXEL_TEMP_CONVERSION = .25
+_THERMISTOR_CONVERSION = .0625
+# pylint: enable=bad-whitespace
 
-	_intclr = i2c_bit.RWBit(0x05, 1)
-	_ovs_clr = i2c_bit.RWBit(0x05, 2)
-	_ovt_clr = i2c_bit.RWBit(0x05, 3)
+def _signed_12bit_to_float(val):
+    #take first 11 bits as absolute val
+    abs_val = (val & 0x7FF)
+    if val & 0x8000:
+        return 0 - float(abs_val)
+    return float(abs_val)
 
-	_mamod = i2c_bit.RWBit(0x07, 5)
+class AMG88XX:
+    """Driver for the AMG88xx GRID-Eye IR 8x8 thermal camera."""
 
-	"""
-	_inthl = i2c_bits.RWBits(8, 0x08, 0)
-	_inthh = i2c_bits.RWBits(4, 0x09, 0)
-	_intll = i2c_bits.RWBits(8, 0x0A, 0)
-	_intlh = i2c_bits.RWBits(4, 0x0B, 0)
-	_ihysl = i2c_bits.RWBits(8, 0x0C, 0)
-	_ihysh = i2c_bits.RWBits(4, 0x0D, 0)
-	"""
+    # Set up the registers
+    _pctl = i2c_bits.RWBits(8, 0x00, 0)
+    _rst = i2c_bits.RWBits(8, 0x01, 0)
+    _fps = i2c_bit.RWBit(0x02, 0)
+    _inten = i2c_bit.RWBit(0x03, 0)
+    _intmod = i2c_bit.RWBit(0x03, 1)
 
-	#_tthl = Adafruit_bitfield({'TEMP':8})
-	_tthl = i2c_bits.RWBits(8, 0x0E, 0)
+    _intf = i2c_bit.RWBit(0x04, 1)
+    _ovf_irs = i2c_bit.RWBit(0x04, 2)
+    _ovf_ths = i2c_bit.RWBit(0x04, 3)
 
-	#_tthh = Adafruit_bitfield({'TEMP':3, 'SIGN':1})
-	_tthh = i2c_bits.RWBits(4, 0x0F, 0)
+    _intclr = i2c_bit.RWBit(0x05, 1)
+    _ovs_clr = i2c_bit.RWBit(0x05, 2)
+    _ovt_clr = i2c_bit.RWBit(0x05, 3)
 
+    _mamod = i2c_bit.RWBit(0x07, 5)
 
-	def __init__(self, i2c, addr=0x69):
-		self.i2c_device = I2CDevice(i2c, addr)
+    _inthl = i2c_bits.RWBits(8, 0x08, 0)
+    _inthh = i2c_bits.RWBits(4, 0x09, 0)
+    _intll = i2c_bits.RWBits(8, 0x0A, 0)
+    _intlh = i2c_bits.RWBits(4, 0x0B, 0)
+    _ihysl = i2c_bits.RWBits(8, 0x0C, 0)
+    _ihysh = i2c_bits.RWBits(4, 0x0D, 0)
 
-		#enter normal mode
-		self._pctl = 0x00
+    _tthl = i2c_bits.RWBits(8, 0x0E, 0)
 
-		#software reset
-		self._rst = 0x3F
+    _tthh = i2c_bits.RWBits(4, 0x0F, 0)
 
-		#disable interrupts by default
-		self.disableInterrupt()
+    def __init__(self, i2c, addr=0x69):
+        self.i2c_device = I2CDevice(i2c, addr)
 
-		#set to 10 FPS
-		self._fps = 0x00
+        #enter normal mode
+        self._pctl = _NORMAL_MODE
 
-	def disableInterrupt(self):
-		self._inten = 0
+        #software reset
+        self._rst = _INITIAL_RESET
 
-	def readThermistor(self):
-		raw = (self._tthh << 8) | self._tthl
-		return self.signedMag12ToFloat(raw) * AMG88xx_THERMISTOR_CONVERSION
+        #disable interrupts by default
+        self._inten = False
 
-	def readPixels(self):
-		retbuf = []
-		buf = bytearray(3)
+        #set to 10 FPS
+        self._fps = _FPS_10
 
-		with self.i2c_device as i2c:
-			for i in range(0, AMG88xx_PIXEL_ARRAY_SIZE):
-				buf[0] = AMG88xx_PIXEL_OFFSET + (i << 1)
-				i2c.write(buf, end=1, stop=False)
-				i2c.readinto(buf, start=1)
-				
-				raw = (buf[2] << 8) | buf[1]
-				converted = self.signedMag12ToFloat(raw) * AMG88xx_PIXEL_TEMP_CONVERSION
-				retbuf.append(converted)
+    @property
+    def temperature(self):
+        """Temperature of the sensor in Celsius"""
+        raw = (self._tthh << 8) | self._tthl
+        return _signed_12bit_to_float(raw) * _THERMISTOR_CONVERSION
 
-		return retbuf
+    @property
+    def pixels(self):
+        """Temperature of each pixel across the sensor in Celsius.
 
-	def signedMag12ToFloat(self, val):
-		#take first 11 bits as absolute val
-		absVal = (val & 0x7FF)
-		if val & 0x8000:
-			return 0 - float(absVal)
-		else:
-			return float(absVal)
+           Temperatures are stored in a two dimensional list where the first index is the row and
+           the second is the column. The first row is on the side closest to the writing on the
+           sensor."""
+        retbuf = [[0]*_PIXEL_ARRAY_WIDTH] * _PIXEL_ARRAY_HEIGHT
+        buf = bytearray(3)
+
+        with self.i2c_device as i2c:
+            for row in range(0, _PIXEL_ARRAY_HEIGHT):
+                for col in range(0, _PIXEL_ARRAY_WIDTH):
+                    i = row * _PIXEL_ARRAY_HEIGHT + col
+                    buf[0] = _PIXEL_OFFSET + (i << 1)
+                    i2c.write(buf, end=1, stop=False)
+                    i2c.readinto(buf, start=1)
+
+                    raw = (buf[2] << 8) | buf[1]
+                    converted = _signed_12bit_to_float(raw) * _PIXEL_TEMP_CONVERSION
+                    retbuf.append(converted)
+
+        return retbuf
