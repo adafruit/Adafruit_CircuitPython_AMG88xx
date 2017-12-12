@@ -160,7 +160,7 @@ class Adafruit_AMG88xx:
 			for i in range(0, AMG88xx_PIXEL_ARRAY_SIZE):
 				buf[0] = AMG88xx_PIXEL_OFFSET + (i << 1)
 				i2c.write(buf, end=1, stop=False)
-				i2c.read_into(buf, start=1)
+				i2c.readinto(buf, start=1)
 				
 				raw = (buf[2] << 8) | buf[1]
 				converted = self.signedMag12ToFloat(raw) * AMG88xx_PIXEL_TEMP_CONVERSION
