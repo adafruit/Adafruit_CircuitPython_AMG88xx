@@ -149,7 +149,7 @@ class AMG88XX:
            Temperatures are stored in a two dimensional list where the first index is the row and
            the second is the column. The first row is on the side closest to the writing on the
            sensor."""
-        retbuf = [[0]*_PIXEL_ARRAY_WIDTH] * _PIXEL_ARRAY_HEIGHT
+        retbuf = [[0]*_PIXEL_ARRAY_WIDTH for _ in range(_PIXEL_ARRAY_HEIGHT)]
         buf = bytearray(3)
 
         with self.i2c_device as i2c:
@@ -161,7 +161,6 @@ class AMG88XX:
                     i2c.readinto(buf, start=1)
 
                     raw = (buf[2] << 8) | buf[1]
-                    converted = _signed_12bit_to_float(raw) * _PIXEL_TEMP_CONVERSION
-                    retbuf.append(converted)
+                    retbuf[row][col] = _signed_12bit_to_float(raw) * _PIXEL_TEMP_CONVERSION
 
         return retbuf
