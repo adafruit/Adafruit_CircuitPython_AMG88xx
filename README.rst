@@ -65,13 +65,6 @@ Pixels can be then be read by doing:
 
     print(amg.pixels)
 
-API Reference
-=============
-
-.. toctree::
-   :maxdepth: 2
-
-   api
 
 Contributing
 ============
