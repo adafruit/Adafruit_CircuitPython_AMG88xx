@@ -9,6 +9,11 @@ Introduction
     :target: https://discord.gg/nBQh6qu
     :alt: Discord
 
+.. image:: https://travis-ci.org/adafruit/Adafruit_CircuitPython_AMG88xx.svg?branch=master
+    :target: https://travis-ci.org/adafruit/Adafruit_CircuitPython_AMG88xx
+    :alt: Build Status
+
+
 Adafruit CircuitPython module for the AMG88xx GRID-Eye IR 8x8 thermal camera.
 
 Dependencies
@@ -65,13 +70,6 @@ Pixels can be then be read by doing:
 
     print(amg.pixels)
 
-API Reference
-=============
-
-.. toctree::
-   :maxdepth: 2
-
-   api
 
 Contributing
 ============

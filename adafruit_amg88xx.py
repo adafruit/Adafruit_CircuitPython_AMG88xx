@@ -22,7 +22,7 @@
 
 """
 `adafruit_amg88xx` - AMG88xx GRID-Eye IR 8x8 IR sensor
-====================================================
+======================================================
 This library supports the use of the AMG88xx in CircuitPython.
 
 Author(s): Dean Miller, Scott Shawcroft for Adafruit Industries.
