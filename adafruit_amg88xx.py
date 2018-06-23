@@ -42,7 +42,7 @@ Implementation Notes
 """
 
 __version__ = "0.0.0-auto.0"
-__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_LIS3DH.git"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_AMG88xx"
 
 from adafruit_bus_device.i2c_device import I2CDevice
 from adafruit_register import i2c_bit, i2c_bits
