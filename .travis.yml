@@ -1,30 +1,31 @@
-# This is a common .travis.yml for generating library release zip files for
-# CircuitPython library releases using circuitpython-build-tools.
-# See https://github.com/adafruit/circuitpython-build-tools for detailed setup
-# instructions.
-
 dist: trusty
 sudo: false
 language: python
 python:
-    - "3.6"
-
+- '3.6'
 cache:
-    pip: true
-
+  pip: true
 deploy:
   provider: releases
-  api_key: $GITHUB_TOKEN
+  api_key: "$GITHUB_TOKEN"
   file_glob: true
-  file: bundles/*
+  file: "$TRAVIS_BUILD_DIR/bundles/*"
   skip_cleanup: true
+  overwrite: true
   on:
     tags: true
-
+- provider: pypi
+  user: adafruit-travis
+  on:
+    tags: true
+  password:
+    secure: B2RnImmdkjSa7c96ZwLaPlkworqPcbjfNscfWt9u6hjCU+V5/5dTcVgzY1lFUQfoXm6S3lzMjU5l0e5lEzbFPfFZgPqwKP7+s0jBVl6NeteMGhoS1VQyq2OMRti+2T6ksdJChMuTOFTMXEp3lVMbZn1JbIFHuE/gshgP1WuXfESc8wGYGA9K2SXjsWPEtOLX1A+WO7sSbFSI7DHJ/E3tFKTKXAcyUMTI07NpC2zRUXC5YYsrV9dldo0LmzTK4mjLKkJ2yZDJEbxrj+t8Su964jQ0gafo5zJi7QpkSoJrMlpYJ48XqFXcRTjYNCTx4ohDD1irBVfIxalV6OuAaPXHJdnNkBY2b46AoKihZTzXR8vHi6E0SvFiNlgvdPTNC4hzkf9igqel0Pa3usybQNk62KA5bg7IqM7LPA2oQGW26QRdix/Hy81qzJm89N3xiI+ypPyhZs1e5RVchrjo/2oz4paSz0AZyN7yB0n9uJ5JmDt7dWUkpDkqF+nLoa06b28WrPXOG2r7VL21Uri2k347NsQqXh3yJSXHk+6ArU51gvyjPvwkKF8wmKzCzsgVYrSV4cQYvRA3JSuEN0xF9mTgalO0GZ8TTKXiQvEVibByf9RDg3+Kg5eqbJ2ybuUegkMCvFkDPdP82+DSznsYYgZyRvOrFNjLPNrnfZ5kHjdYBHw=
 install:
-  - pip install pylint circuitpython-build-tools
-
+- pip install -r requirements.txt
+- pip install pylint circuitpython-build-tools Sphinx sphinx-rtd-theme
 script:
-  - pylint adafruit_amg88xx.py
-  - ([[ ! -d "examples" ]] || pylint --disable=missing-docstring,invalid-name examples/*.py)
-  - circuitpython-build-bundles --filename_prefix adafruit-circuitpython-amg88xx --library_location .
+- pylint adafruit_amg88xx.py
+- ([[ ! -d "examples" ]] || pylint --disable=missing-docstring,invalid-name examples/*.py)
+- circuitpython-build-bundles --filename_prefix adafruit-circuitpython-amg88xx --library_location
+  .
+- cd docs && sphinx-build -E -W -b html . _build/html && cd ..
