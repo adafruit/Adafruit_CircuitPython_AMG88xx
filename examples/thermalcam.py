@@ -5,8 +5,8 @@ import time
 import busio
 import board
 
-import pygame
 import numpy as np
+import pygame
 from scipy.interpolate import griddata
 
 from colour import Color
@@ -62,11 +62,11 @@ def constrain(val, min_val, max_val):
     return min(max_val, max(min_val, val))
 
 def map_value(x, in_min, in_max, out_min, out_max):
-  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
 #let the sensor initialize
 time.sleep(.1)
-    
+
 while True:
 
     #read the pixels
@@ -74,15 +74,15 @@ while True:
     for row in sensor.pixels:
         pixels = pixels + row
     pixels = [map_value(p, MINTEMP, MAXTEMP, 0, COLORDEPTH - 1) for p in pixels]
-    
+
     #perform interpolation
     bicubic = griddata(points, pixels, (grid_x, grid_y), method='cubic')
 
     #draw everything
     for ix, row in enumerate(bicubic):
         for jx, pixel in enumerate(row):
-            pygame.draw.rect(lcd, colors[constrain(int(pixel), 0, COLORDEPTH- 1)], 
-                            (displayPixelHeight * ix, displayPixelWidth * jx, displayPixelHeight, displayPixelWidth))
-    
-    pygame.display.update()
+            pygame.draw.rect(lcd, colors[constrain(int(pixel), 0, COLORDEPTH- 1)],
+                             (displayPixelHeight * ix, displayPixelWidth * jx, 
+                             displayPixelHeight, displayPixelWidth))
 
+    pygame.display.update()
