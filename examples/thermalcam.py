@@ -30,8 +30,10 @@ pygame.init()
 #initialize the sensor
 sensor = adafruit_amg88xx.AMG88XX(i2c_bus)
 
+# pylint: disable=invalid-slice-index
 points = [(math.floor(ix / 8), (ix % 8)) for ix in range(0, 64)]
 grid_x, grid_y = np.mgrid[0:7:32j, 0:7:32j]
+# pylint: enable=invalid-slice-index
 
 #sensor is an 8x8 grid so lets do a square
 height = 240
@@ -82,7 +84,7 @@ while True:
     for ix, row in enumerate(bicubic):
         for jx, pixel in enumerate(row):
             pygame.draw.rect(lcd, colors[constrain(int(pixel), 0, COLORDEPTH- 1)],
-                             (displayPixelHeight * ix, displayPixelWidth * jx, 
-                             displayPixelHeight, displayPixelWidth))
+                             (displayPixelHeight * ix, displayPixelWidth * jx,
+                              displayPixelHeight, displayPixelWidth))
 
     pygame.display.update()
