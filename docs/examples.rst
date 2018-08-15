@@ -3,6 +3,6 @@ Pixel test
 
 Ensure your device works with this test:
 
-.. literalinclude:: ../examples/pixel_test.py
-    :caption: examples/pixel_test.py
+.. literalinclude:: ../examples/amg88xx_simpletest.py
+    :caption: examples/amg88xx_simpletest.py
     :linenos:
