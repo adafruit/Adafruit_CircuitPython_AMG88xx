@@ -1,4 +1,4 @@
-"""This example is for Raspberry Pi only! It will not work on CircuitPython!"""
+"""This example is for Raspberry Pi (Linux) only! It will not work on microcontrollers running CircuitPython!"""
 import os
 import math
 import time
