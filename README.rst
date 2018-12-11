@@ -9,8 +9,8 @@ Introduction
     :target: https://discord.gg/nBQh6qu
     :alt: Discord
 
-.. image:: https://travis-ci.org/adafruit/Adafruit_CircuitPython_AMG88xx.svg?branch=master
-    :target: https://travis-ci.org/adafruit/Adafruit_CircuitPython_AMG88xx
+.. image:: https://travis-ci.com/adafruit/Adafruit_CircuitPython_AMG88xx.svg?branch=master
+    :target: https://travis-ci.com/adafruit/Adafruit_CircuitPython_AMG88xx
     :alt: Build Status
 
 
