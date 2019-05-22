@@ -54,7 +54,7 @@ from micropython import const
 # Operating Modes
 # pylint: disable=bad-whitespace
 _NORMAL_MODE = const(0x00)
-_SLEEP_MODE  = const(0x01)
+_SLEEP_MODE  = const(0x10)
 _STAND_BY_60 = const(0x20)
 _STAND_BY_10 = const(0x21)
 
@@ -86,9 +86,15 @@ _THERMISTOR_CONVERSION = .0625
 def _signed_12bit_to_float(val):
     #take first 11 bits as absolute val
     abs_val = (val & 0x7FF)
-    if val & 0x8000:
+    if val & 0x800:
         return 0 - float(abs_val)
     return float(abs_val)
+
+def _twos_comp_to_float(val):
+    val &= 0xfff
+    if val & 0x800:
+        val -= 0x1000
+    return float(val)
 
 class AMG88XX:
     """Driver for the AMG88xx GRID-Eye IR 8x8 thermal camera."""
@@ -161,6 +167,6 @@ class AMG88XX:
                     i2c.readinto(buf, start=1)
 
                     raw = (buf[2] << 8) | buf[1]
-                    retbuf[row][col] = _signed_12bit_to_float(raw) * _PIXEL_TEMP_CONVERSION
+                    retbuf[row][col] = _twos_comp_to_float(raw) * _PIXEL_TEMP_CONVERSION
 
         return retbuf
