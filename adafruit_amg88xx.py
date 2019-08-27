@@ -163,8 +163,7 @@ class AMG88XX:
                 for col in range(0, _PIXEL_ARRAY_WIDTH):
                     i = row * _PIXEL_ARRAY_HEIGHT + col
                     buf[0] = _PIXEL_OFFSET + (i << 1)
-                    i2c.write(buf, end=1, stop=False)
-                    i2c.readinto(buf, start=1)
+                    i2c.write_then_readinto(buf, buf, out_end=1, in_start=1)
 
                     raw = (buf[2] << 8) | buf[1]
                     retbuf[row][col] = _twos_comp_to_float(raw) * _PIXEL_TEMP_CONVERSION
