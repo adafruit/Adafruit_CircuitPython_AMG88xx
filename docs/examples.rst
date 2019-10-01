@@ -8,7 +8,7 @@ Ensure your device works with this test:
     :linenos:
     
 Pixel test RasPy
-------------
+------------------
 
 Ensure your device works with this test:
 
