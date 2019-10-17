@@ -78,26 +78,7 @@ Contributions are welcome! Please read our `Code of Conduct
 <https://github.com/adafruit/Adafruit_CircuitPython_LIS3DH/blob/master/CODE_OF_CONDUCT.md>`_
 before contributing to help this project stay welcoming.
 
-Building locally
-================
+Documentation
+=============
 
-To build this library locally you'll need to install the
-`circuitpython-travis-build-tools <https://github.com/adafruit/circuitpython-build-tools>`_ package.
-
-.. code-block::shell
-
-    python3 -m venv .env
-    source .env/bin/activate
-    pip install -r requirements.txt
-
-Once installed, make sure you are in the virtual environment:
-
-.. code-block::shell
-
-    source .env/bin/activate
-
-Then run the build:
-
-.. code-block::shell
-
-    circuitpython-build-bundles --filename_prefix adafruit-circuitpython-lis3dh --library_location .
+For information on building library documentation, please check out `this guide <https://learn.adafruit.com/creating-and-sharing-a-circuitpython-library/sharing-our-docs-on-readthedocs#sphinx-5-1>`_.
