@@ -9,8 +9,8 @@ Introduction
     :target: https://discord.gg/nBQh6qu
     :alt: Discord
 
-.. image:: https://travis-ci.com/adafruit/Adafruit_CircuitPython_AMG88xx.svg?branch=master
-    :target: https://travis-ci.com/adafruit/Adafruit_CircuitPython_AMG88xx
+.. image:: https://github.com/adafruit/Adafruit_CircuitPython_AMG88xx/workflows/Build%20CI/badge.svg
+    :target: https://github.com/adafruit/Adafruit_CircuitPython_AMG88xx/actions/
     :alt: Build Status
 
 
@@ -29,7 +29,8 @@ This is easily achieved by downloading
 `the Adafruit library and driver bundle <https://github.com/adafruit/Adafruit_CircuitPython_Bundle>`_.
 
 Installing from PyPI
---------------------
+====================
+
 On supported GNU/Linux systems like the Raspberry Pi, you can install the driver locally `from
 PyPI <https://pypi.org/project/adafruit-circuitpython-amg88xx/>`_. To install for current user:
 
