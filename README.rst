@@ -29,12 +29,8 @@ This is easily achieved by downloading
 `the Adafruit library and driver bundle <https://github.com/adafruit/Adafruit_CircuitPython_Bundle>`_.
 
 Installing from PyPI
-<<<<<<< HEAD
---------------------
-=======
 ====================
 
->>>>>>> 896e42061d540c6ca0fcf096be33be503532c7d0
 On supported GNU/Linux systems like the Raspberry Pi, you can install the driver locally `from
 PyPI <https://pypi.org/project/adafruit-circuitpython-amg88xx/>`_. To install for current user:
 
