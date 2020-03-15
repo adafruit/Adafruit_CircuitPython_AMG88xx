@@ -54,47 +54,50 @@ from micropython import const
 # Operating Modes
 # pylint: disable=bad-whitespace
 _NORMAL_MODE = const(0x00)
-_SLEEP_MODE  = const(0x10)
+_SLEEP_MODE = const(0x10)
 _STAND_BY_60 = const(0x20)
 _STAND_BY_10 = const(0x21)
 
 # sw resets
-_FLAG_RESET    = const(0x30)
+_FLAG_RESET = const(0x30)
 _INITIAL_RESET = const(0x3F)
 
 # frame rates
 _FPS_10 = const(0x00)
-_FPS_1  = const(0x01)
+_FPS_1 = const(0x01)
 
 # int enables
 _INT_DISABLED = const(0x00)
-_INT_ENABLED  = const(0x01)
+_INT_ENABLED = const(0x01)
 
 # int modes
-_DIFFERENCE     = const(0x00)
+_DIFFERENCE = const(0x00)
 _ABSOLUTE_VALUE = const(0x01)
 
-_INT_OFFSET   = const(0x010)
+_INT_OFFSET = const(0x010)
 _PIXEL_OFFSET = const(0x80)
 
 _PIXEL_ARRAY_WIDTH = const(8)
 _PIXEL_ARRAY_HEIGHT = const(8)
-_PIXEL_TEMP_CONVERSION = .25
-_THERMISTOR_CONVERSION = .0625
+_PIXEL_TEMP_CONVERSION = 0.25
+_THERMISTOR_CONVERSION = 0.0625
 # pylint: enable=bad-whitespace
 
+
 def _signed_12bit_to_float(val):
-    #take first 11 bits as absolute val
-    abs_val = (val & 0x7FF)
+    # take first 11 bits as absolute val
+    abs_val = val & 0x7FF
     if val & 0x800:
         return 0 - float(abs_val)
     return float(abs_val)
 
+
 def _twos_comp_to_float(val):
-    val &= 0xfff
+    val &= 0xFFF
     if val & 0x800:
         val -= 0x1000
     return float(val)
+
 
 class AMG88XX:
     """Driver for the AMG88xx GRID-Eye IR 8x8 thermal camera."""
@@ -130,16 +133,16 @@ class AMG88XX:
     def __init__(self, i2c, addr=0x69):
         self.i2c_device = I2CDevice(i2c, addr)
 
-        #enter normal mode
+        # enter normal mode
         self._pctl = _NORMAL_MODE
 
-        #software reset
+        # software reset
         self._rst = _INITIAL_RESET
 
-        #disable interrupts by default
+        # disable interrupts by default
         self._inten = False
 
-        #set to 10 FPS
+        # set to 10 FPS
         self._fps = _FPS_10
 
     @property
@@ -155,7 +158,7 @@ class AMG88XX:
            Temperatures are stored in a two dimensional list where the first index is the row and
            the second is the column. The first row is on the side closest to the writing on the
            sensor."""
-        retbuf = [[0]*_PIXEL_ARRAY_WIDTH for _ in range(_PIXEL_ARRAY_HEIGHT)]
+        retbuf = [[0] * _PIXEL_ARRAY_WIDTH for _ in range(_PIXEL_ARRAY_HEIGHT)]
         buf = bytearray(3)
 
         with self.i2c_device as i2c:
