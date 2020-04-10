@@ -4,7 +4,6 @@
 import sys
 import math
 import time
-import atexit
 import busio
 import board
 import numpy as np
@@ -48,13 +47,6 @@ def print_there(console_x, console_y, text, color):
     """ Outputs a colored text to console at coordinates """
     sys.stdout.write("\x1b7\x1b[48;5;%dm" % (color))
     sys.stdout.write("\x1b7\x1b[%d;%df%s\x1b8" % (console_x, console_y, text))
-
-def exit_handler():
-    """ print values on exit for debugging """
-    print("maxpixel:" + str(MAXPIXEL))
-    print("minpixel:" + str(MINPIXEL))
-
-atexit.register(exit_handler)
 
 # let the sensor initialize
 time.sleep(0.1)
