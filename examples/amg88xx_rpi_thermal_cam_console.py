@@ -36,17 +36,38 @@ COLORS = list(BLUE.range_to(Color("red"), COLORDEPTH))
 # create the array of colors
 COLORS = [(int(c.red * 255), int(c.green * 255), int(c.blue * 255)) for c in COLORS]
 CONSOLE_COLORS = [
-        17, 18, 19, 20, 21, 57, 93, 129, 165, 201, 200,
-        199, 198, 197, 196, 202, 208, 214, 220]
+    17,
+    18,
+    19,
+    20,
+    21,
+    57,
+    93,
+    129,
+    165,
+    201,
+    200,
+    199,
+    198,
+    197,
+    196,
+    202,
+    208,
+    214,
+    220,
+]
+
 
 def map_value(x_value, in_min, in_max, out_min, out_max):
     """Maps value of the temperature to color"""
     return (x_value - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
+
 def print_there(console_x, console_y, text, color):
     """ Outputs a colored text to console at coordinates """
     sys.stdout.write("\x1b7\x1b[48;5;%dm" % (color))
     sys.stdout.write("\x1b7\x1b[%d;%df%s\x1b8" % (console_x, console_y, text))
+
 
 # let the sensor initialize
 time.sleep(0.1)
@@ -73,12 +94,12 @@ while True:
         for jx, pixel in enumerate(row):
             color_index = 0
             if COLOR_RANGE != 0:
-                color_index = int(round((pixel-MINPIXEL)/COLOR_RANGE))
+                color_index = int(round((pixel - MINPIXEL) / COLOR_RANGE))
             if color_index < 0:
                 color_index = 0
-            if color_index > len(CONSOLE_COLORS)-1:
-                color_index = len(CONSOLE_COLORS)-1
-            print_there(x_console, Y_CONSOLE*2-2, '  ', CONSOLE_COLORS[color_index])
+            if color_index > len(CONSOLE_COLORS) - 1:
+                color_index = len(CONSOLE_COLORS) - 1
+            print_there(x_console, Y_CONSOLE * 2 - 2, "  ", CONSOLE_COLORS[color_index])
             if pixel > MAXPIXEL:
                 MAXPIXEL = pixel
             if pixel < MINPIXEL:
