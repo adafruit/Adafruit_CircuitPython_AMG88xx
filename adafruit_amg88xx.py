@@ -52,7 +52,6 @@ from micropython import const
 # Registers are defined below in the class. These are possible register values.
 
 # Operating Modes
-# pylint: disable=bad-whitespace
 _NORMAL_MODE = const(0x00)
 _SLEEP_MODE = const(0x10)
 _STAND_BY_60 = const(0x20)
@@ -81,7 +80,6 @@ _PIXEL_ARRAY_WIDTH = const(8)
 _PIXEL_ARRAY_HEIGHT = const(8)
 _PIXEL_TEMP_CONVERSION = 0.25
 _THERMISTOR_CONVERSION = 0.0625
-# pylint: enable=bad-whitespace
 
 
 def _signed_12bit_to_float(val):
