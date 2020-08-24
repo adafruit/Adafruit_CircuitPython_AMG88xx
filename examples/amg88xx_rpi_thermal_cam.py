@@ -5,11 +5,11 @@ import os
 import math
 import time
 
+import numpy as np
+import pygame
 import busio
 import board
 
-import numpy as np
-import pygame
 from scipy.interpolate import griddata
 
 from colour import Color
@@ -28,7 +28,9 @@ MAXTEMP = 32.0
 COLORDEPTH = 1024
 
 os.putenv("SDL_FBDEV", "/dev/fb1")
+# pylint: disable=no-member
 pygame.init()
+# pylint: enable=no-member
 
 # initialize the sensor
 sensor = adafruit_amg88xx.AMG88XX(i2c_bus)

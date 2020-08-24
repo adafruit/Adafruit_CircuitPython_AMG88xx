@@ -4,9 +4,9 @@
 import sys
 import math
 import time
+import numpy as np
 import busio
 import board
-import numpy as np
 from scipy.interpolate import griddata
 from colour import Color
 import adafruit_amg88xx
