@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+# SPDX-FileCopyrightText: 2021 ladyada for Adafruit Industries
+#
+# SPDX-License-Identifier: MIT
 #
 # Adafruit AMG88xx Library documentation build configuration file, created by
 # sphinx-quickstart on Fri Nov 11 07:42:21 2016.
