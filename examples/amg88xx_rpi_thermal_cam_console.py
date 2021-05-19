@@ -98,8 +98,7 @@ while True:
             color_index = 0
             if COLOR_RANGE != 0:
                 color_index = int(round((pixel - MINPIXEL) / COLOR_RANGE))
-            if color_index < 0:
-                color_index = 0
+            color_index = max(color_index, 0)
             if color_index > len(CONSOLE_COLORS) - 1:
                 color_index = len(CONSOLE_COLORS) - 1
             print_there(x_console, Y_CONSOLE * 2 - 2, "  ", CONSOLE_COLORS[color_index])
