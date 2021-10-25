@@ -96,6 +96,11 @@ Pixels can be then be read by doing:
     print(amg.pixels)
 
 
+Documentation
+=============
+
+API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/amg88xx/en/latest/>`_.
+
 Contributing
 ============
 
