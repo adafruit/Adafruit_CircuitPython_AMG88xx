@@ -2,7 +2,7 @@ Introduction
 ============
 
 .. image:: https://readthedocs.org/projects/adafruit-circuitpython-amg88xx/badge/?version=latest
-    :target: https://circuitpython.readthedocs.io/projects/amg88xx/en/latest/
+    :target: https://docs.circuitpython.org/projects/amg88xx/en/latest/
     :alt: Documentation Status
 
 .. image :: https://img.shields.io/discord/327254708534116352.svg
@@ -99,7 +99,7 @@ Pixels can be then be read by doing:
 Documentation
 =============
 
-API documentation for this library can be found on `Read the Docs <https://circuitpython.readthedocs.io/projects/amg88xx/en/latest/>`_.
+API documentation for this library can be found on `Read the Docs <https://docs.circuitpython.org/projects/amg88xx/en/latest/>`_.
 
 Contributing
 ============
