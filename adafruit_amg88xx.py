@@ -28,6 +28,12 @@ __repo__: str = "https://github.com/adafruit/Adafruit_CircuitPython_AMG88xx"
 
 from adafruit_bus_device.i2c_device import I2CDevice
 from adafruit_register import i2c_bit, i2c_bits
+from adafruit_register.i2c_bits import (
+    RWBits,
+)  # pylint: disable=unused-import,line-too-long
+from adafruit_register.i2c_bit import (
+    RWBit,
+)  # pylint: disable=unused-import,line-too-long
 from micropython import const
 
 try:
@@ -35,12 +41,6 @@ try:
 
     # These are only needed for typing
     import busio  # pylint: disable=unused-import
-    from adafruit_register.i2c_bits import (
-        RWBits,
-    )  # pylint: disable=unused-import,line-too-long
-    from adafruit_register.i2c_bit import (
-        RWBit,
-    )  # pylint: disable=unused-import,line-too-long
 except ImportError:
     pass
 
