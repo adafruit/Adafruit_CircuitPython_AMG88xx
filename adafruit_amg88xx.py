@@ -123,7 +123,7 @@ class AMG88XX:
 
     _tthh: RWBits = i2c_bits.RWBits(4, 0x0F, 0)
 
-    def __init__(self, i2c: busio.I2C, addr: int = 0x69):
+    def __init__(self, i2c: busio.I2C, addr: int = 0x69) -> None:
         self.i2c_device = I2CDevice(i2c, addr)
 
         # enter normal mode
