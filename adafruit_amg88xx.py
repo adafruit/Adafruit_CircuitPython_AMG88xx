@@ -32,10 +32,15 @@ from micropython import const
 
 try:
     from typing import List
+
     # These are only needed for typing
     import busio  # pylint: disable=unused-import
-    from adafruit_register.i2c_bits import RWBits  # pylint: disable=unused-import,line-too-long
-    from adafruit_register.i2c_bit import RWBit  # pylint: disable=unused-import,line-too-long
+    from adafruit_register.i2c_bits import (
+        RWBits,
+    )  # pylint: disable=unused-import,line-too-long
+    from adafruit_register.i2c_bit import (
+        RWBit,
+    )  # pylint: disable=unused-import,line-too-long
 except ImportError:
     pass
 
