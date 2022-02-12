@@ -28,8 +28,8 @@ __repo__: str = "https://github.com/adafruit/Adafruit_CircuitPython_AMG88xx"
 
 from adafruit_bus_device.i2c_device import I2CDevice
 from adafruit_register import i2c_bit, i2c_bits
-from adafruit_register.i2c_bits import RWBits, ROBits
-from adafruit_register.i2c_bit import RWBit, ROBit
+from adafruit_register.i2c_bits import RWBits
+from adafruit_register.i2c_bit import RWBit
 from micropython import const
 import busio
 
