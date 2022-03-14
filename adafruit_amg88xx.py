@@ -94,7 +94,7 @@ def _twos_comp_to_float(val: int) -> float:
 
 class AMG88XX:
     """Driver for the AMG88xx GRID-Eye IR 8x8 thermal camera.
-    
+
     :param ~busio.I2C i2c: The I2C bus object
     :param int address: The I2C address, default is 0x69
     """
