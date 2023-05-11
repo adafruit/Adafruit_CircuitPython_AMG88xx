@@ -67,6 +67,7 @@ pygame.mouse.set_visible(False)
 lcd.fill((0, 0, 0))
 pygame.display.update()
 
+
 # some utility functions
 def constrain(val, min_val, max_val):
     return min(max_val, max(min_val, val))
@@ -80,7 +81,6 @@ def map_value(x, in_min, in_max, out_min, out_max):
 time.sleep(0.1)
 
 while True:
-
     # read the pixels
     pixels = []
     for row in sensor.pixels:

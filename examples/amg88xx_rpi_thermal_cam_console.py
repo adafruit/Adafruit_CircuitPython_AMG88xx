@@ -77,7 +77,6 @@ time.sleep(0.1)
 
 COLOR_RANGE = 1
 while True:
-
     # read the pixels
     PIXELS = []
     for row in SENSOR.pixels:
