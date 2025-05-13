@@ -2,20 +2,18 @@
 # SPDX-License-Identifier: MIT
 
 """This example is for Raspberry Pi (Linux) only!
-   It will not work on microcontrollers running CircuitPython!"""
+It will not work on microcontrollers running CircuitPython!"""
 
-import os
 import math
+import os
 import time
 
+import board
+import busio
 import numpy as np
 import pygame
-import busio
-import board
-
-from scipy.interpolate import griddata
-
 from colour import Color
+from scipy.interpolate import griddata
 
 import adafruit_amg88xx
 
@@ -31,17 +29,13 @@ MAXTEMP = 32.0
 COLORDEPTH = 1024
 
 os.putenv("SDL_FBDEV", "/dev/fb1")
-# pylint: disable=no-member
 pygame.init()
-# pylint: enable=no-member
 
 # initialize the sensor
 sensor = adafruit_amg88xx.AMG88XX(i2c_bus)
 
-# pylint: disable=invalid-slice-index
 points = [(math.floor(ix / 8), (ix % 8)) for ix in range(0, 64)]
 grid_x, grid_y = np.mgrid[0:7:32j, 0:7:32j]
-# pylint: enable=invalid-slice-index
 
 # sensor is an 8x8 grid so lets do a square
 height = 240
