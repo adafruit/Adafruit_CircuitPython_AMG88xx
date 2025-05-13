@@ -2,16 +2,18 @@
 # SPDX-License-Identifier: MIT
 
 """This example is for Raspberry Pi (Linux) only!
-   It will not work on microcontrollers running CircuitPython!"""
+It will not work on microcontrollers running CircuitPython!"""
 
-import sys
 import math
+import sys
 import time
-import numpy as np
-import busio
+
 import board
-from scipy.interpolate import griddata
+import busio
+import numpy as np
 from colour import Color
+from scipy.interpolate import griddata
+
 import adafruit_amg88xx
 
 I2C_BUS = busio.I2C(board.SCL, board.SDA)
@@ -23,10 +25,8 @@ MAXTEMP = 32.0
 COLORDEPTH = 1024
 SENSOR = adafruit_amg88xx.AMG88XX(I2C_BUS)
 
-# pylint: disable=invalid-slice-index
 POINTS = [(math.floor(ix / 8), (ix % 8)) for ix in range(0, 64)]
 GRID_X, GRID_Y = np.mgrid[0:7:32j, 0:7:32j]
-# pylint: enable=invalid-slice-index
 
 # sensor is an 8x8 grid so lets do a square
 HEIGHT = 240
