@@ -78,7 +78,7 @@ while True:
     # read the pixels
     pixels = []
     for row in sensor.pixels:
-        pixels = pixels + row
+        pixels += row
     pixels = [map_value(p, MINTEMP, MAXTEMP, 0, COLORDEPTH - 1) for p in pixels]
 
     # perform interpolation

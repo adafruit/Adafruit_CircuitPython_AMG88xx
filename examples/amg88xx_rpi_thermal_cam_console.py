@@ -68,8 +68,8 @@ def map_value(x_value, in_min, in_max, out_min, out_max):
 
 def print_there(console_x, console_y, text, color):
     """Outputs a colored text to console at coordinates"""
-    sys.stdout.write("\x1b7\x1b[48;5;%dm" % (color))
-    sys.stdout.write("\x1b7\x1b[%d;%df%s\x1b8" % (console_x, console_y, text))
+    sys.stdout.write(f"\x1b7\x1b[48;5;{color}m")
+    sys.stdout.write(f"\x1b7\x1b[{console_x};{console_y}f{text}\x1b8")
 
 
 # let the sensor initialize
@@ -80,7 +80,7 @@ while True:
     # read the pixels
     PIXELS = []
     for row in SENSOR.pixels:
-        PIXELS = PIXELS + row
+        PIXELS += row
     PIXELS = [map_value(p, MINTEMP, MAXTEMP, 0, COLORDEPTH - 1) for p in PIXELS]
 
     # perform interpolation
@@ -98,13 +98,10 @@ while True:
             if COLOR_RANGE != 0:
                 color_index = int(round((pixel - MINPIXEL) / COLOR_RANGE))
             color_index = max(color_index, 0)
-            if color_index > len(CONSOLE_COLORS) - 1:
-                color_index = len(CONSOLE_COLORS) - 1
+            color_index = min(color_index, len(CONSOLE_COLORS) - 1)
             print_there(x_console, Y_CONSOLE * 2 - 2, "  ", CONSOLE_COLORS[color_index])
-            if pixel > MAXPIXEL:
-                MAXPIXEL = pixel
-            if pixel < MINPIXEL:
-                MINPIXEL = pixel
+            MAXPIXEL = max(MAXPIXEL, pixel)
+            MINPIXEL = min(MINPIXEL, pixel)
             x_console += 1
         Y_CONSOLE += 1
     sys.stdout.flush()
